@@ -135,19 +135,6 @@ class _DetailviewpageState extends State<Detailviewpage> {
                         height: 10,
                       ),
                       Container(
-                        // decoration: BoxDecoration(
-                        //   boxShadow: [
-                        //     BoxShadow(
-                        //       spreadRadius: 1,
-                        //       blurRadius: 2,
-                        //       color: const Color.fromARGB(255, 244, 33, 33),
-                        //     ),
-                        //   ],
-                        //   color: Color.fromARGB(255, 255, 255, 255),
-                        //   borderRadius: BorderRadius.only(
-                        //       topLeft: Radius.circular(55),
-                        //       topRight: Radius.circular(55)),
-                        // ),
                         height: screenHeight * 0.4,
                         child: SingleChildScrollView(
                           child: Column(
@@ -176,7 +163,7 @@ class _DetailviewpageState extends State<Detailviewpage> {
                                       ),
                                     ),
                                     Text(
-                                      ' ₹${(double.parse(widget.Price) - (double.parse(widget.discount) * double.parse(widget.Price) / 100)).toStringAsFixed(2)}',
+                                      ' ₹${widget.discount}', //(double.parse(widget.Price) - (double.parse(widget.discount) * double.parse(widget.Price) / 100)).toStringAsFixed(2)
                                       style: GoogleFonts.spectral(
                                         color: const Color.fromARGB(
                                             255, 229, 18, 18),
@@ -327,7 +314,7 @@ class _DetailviewpageState extends State<Detailviewpage> {
                                               height: screenHeight * 0.05,
                                               child: Center(
                                                 child: Text(
-                                                  "${(((double.parse(widget.discount)))).toStringAsFixed(0)}% OFF",
+                                                  "${((((double.parse(widget.Price)) - (double.parse(widget.discount))) / (double.parse(widget.Price))) * 100).toStringAsFixed(0)}% OFF",
                                                   style: GoogleFonts.exo(
                                                     color: const Color.fromARGB(
                                                         255, 44, 135, 42),
@@ -402,7 +389,7 @@ class _DetailviewpageState extends State<Detailviewpage> {
                             Row(
                               children: [
                                 Text(
-                                  ' ₹${(double.parse(widget.Price) - (double.parse(widget.discount) * double.parse(widget.Price) / 100)).toStringAsFixed(2)}',
+                                  ' ₹${(double.parse(widget.discount)).toStringAsFixed(2)}',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.black,

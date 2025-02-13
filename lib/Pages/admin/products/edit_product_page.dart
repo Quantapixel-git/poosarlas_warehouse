@@ -261,8 +261,8 @@ class _EditProductPageState extends State<EditProductPage> {
                             ),
                             _buildTextField(
                               controller: productDiscountController,
-                              label: "Product Discount in %",
-                              hintText: "Enter Discount (if any %)",
+                              label: "Discounted Price",
+                              hintText: "Enter Discount Price",
                             ),
                             _buildTextField(
                               controller: stockController,

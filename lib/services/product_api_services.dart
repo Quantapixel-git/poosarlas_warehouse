@@ -4,22 +4,20 @@ import 'package:e_commerce_grocery_application/Pages/cartpage.dart';
 import 'package:e_commerce_grocery_application/Pages/model_category.dart/product_model.dart';
 import 'package:e_commerce_grocery_application/Pages/models/JsonDartYOrders.dart';
 import 'package:e_commerce_grocery_application/Pages/models/cart_details.dart';
+import 'package:e_commerce_grocery_application/Pages/models/getProductsByUserId.dart';
 import 'package:e_commerce_grocery_application/Pages/models/modelneeded.dart';
 import 'package:e_commerce_grocery_application/Pages/models/user_details_model.dart';
 import 'package:e_commerce_grocery_application/Pages/models/user_model.dart';
 import 'package:e_commerce_grocery_application/global_variable.dart';
 import 'package:flutter/material.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-
 import '../Pages/models/order_response_model.dart';
 
 class ProductService {
   final String baseUrl =
       "https://quantapixel.in/ecommerce/grocery_app/public/api";
   final String accessKey = "PMAT-01JDF1ZCPKHE7PXSVT9J6YG1AZ";
-
   Future<Response?> addProduct({
     required File productImage,
     File? additionalImage1,
@@ -242,6 +240,62 @@ class ProductService {
     }
   }
 
+  Future<Map<String, dynamic>> getFilter() async {
+    final url = Uri.parse('$baseUrl/getFilter');
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        if (responseData['status'] == 1) {
+          return responseData; // Return full response
+        } else {
+          throw Exception(responseData['message'] ?? "Failed to fetch data");
+        }
+      } else {
+        throw Exception("Error: ${response.statusCode}");
+      }
+    } catch (e) {
+      throw Exception("Error fetching data: ${e.toString()}");
+    }
+  }
+
+  Future<Map<String, dynamic>> getAllProductsByUserId(String userId) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/getAllProductsByUserId'),
+        headers: {
+          "Authorization": "Bearer $accessKey",
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({
+          "user_id": userId,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+        print("Products fetched successfully!");
+        return data;
+      } else {
+        print("Failed to fetch products: ${response.statusCode}");
+        print("Response: ${response.body}");
+        return {
+          "success": false,
+          "message": "Failed to fetch products",
+          "status_code": response.statusCode,
+          "body": response.body,
+        };
+      }
+    } catch (e) {
+      print("Error during fetch: $e");
+      return {
+        "success": false,
+        "message": "Error during fetch: $e",
+      };
+    }
+  }
+
   Future<void> deleteProduct(int productId, String accessKey) async {
     try {
       final response = await http.post(
@@ -285,6 +339,28 @@ class ProductService {
       }
     } catch (e) {
       print("Error during deletion: $e");
+    }
+  }
+
+  Future<void> updateFilter(String id, String filter) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/updateFilter'),
+        headers: {
+          "Authorization": "Bearer $accessKey",
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({"id": id, "filter": filter}),
+      );
+
+      if (response.statusCode == 200) {
+        print("User status updated successfully!");
+      } else {
+        print("Failed to Update User Status: ${response.statusCode}");
+        print("Response: ${response.body}");
+      }
+    } catch (e) {
+      print("Error: $e");
     }
   }
 

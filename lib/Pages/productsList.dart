@@ -293,7 +293,7 @@ class _ProductslistState extends State<Productslist> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      ' ₹${(double.parse(category.productPrice) - (double.parse(category.productDiscount) * double.parse(category.productPrice) / 100)).toStringAsFixed(2)}',
+                                      ' ₹${(double.parse(category.productDiscount)).toStringAsFixed(2)}',
                                       style: GoogleFonts.roboto(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,

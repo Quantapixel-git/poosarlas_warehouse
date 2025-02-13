@@ -90,7 +90,7 @@ class _GriditemsState extends State<Listbestseling> {
                             ),
                           ),
                           Text(
-                            ' ₹${(double.parse(griddata['product_price']) - (double.parse(griddata['product_discount']) * double.parse(griddata['product_price']) / 100)).toStringAsFixed(2)}',
+                            ' ₹${(double.parse(griddata['product_discount'])).toStringAsFixed(2)}',
                             style: TextStyle(
                                 color: Colors.redAccent,
                                 fontWeight: FontWeight.w500),

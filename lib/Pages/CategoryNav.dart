@@ -43,7 +43,7 @@ class _CategoryNavState extends State<CategoryNav> {
                               child: Text(
                                 'Categories',
                                 style: GoogleFonts.notoSerifOttomanSiyaq(
-                                  fontSize: 22,
+                                  fontSize: 25,
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
@@ -101,7 +101,7 @@ class _CategoryNavState extends State<CategoryNav> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Productspageuser(
-                                        categoryid: category.id.toString(),
+                                        categoryId: category.id.toString(),
                                       )));
                         },
                         child: Container(

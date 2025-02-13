@@ -1,4 +1,4 @@
-package com.example.e_commerce_grocery_application
+package com.quantapixel.ecommApp
 
 import io.flutter.embedding.android.FlutterActivity
 

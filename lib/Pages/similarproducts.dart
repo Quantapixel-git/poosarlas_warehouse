@@ -124,7 +124,7 @@ class _SimilarproductsState extends State<Similarproducts> {
                                 ),
                               ),
                               Text(
-                                ' ₹${(double.parse(category.productPrice) - (double.parse(category.productDiscount) * double.parse(category.productPrice) / 100)).toStringAsFixed(2)}',
+                                ' ₹${(double.parse(category.productDiscount)).toStringAsFixed(2)}',
                                 style: TextStyle(
                                     color: Colors.redAccent,
                                     fontWeight: FontWeight.w500),

@@ -10,22 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
 
-class CartItem {
-  String productName;
-  double productPrice;
-  double productDiscount;
-  int quantity;
-
-  CartItem({
-    required this.productName,
-    required this.productPrice,
-    required this.productDiscount,
-    required this.quantity,
-  });
-
-  double get discountedPrice => (productPrice - productDiscount) * quantity;
-}
-
 class Cartpage extends StatefulWidget {
   const Cartpage({super.key});
 
@@ -110,10 +94,10 @@ class _CartpageState extends State<Cartpage> {
           double.tryParse(product?.deliveryCharge ?? '0') ?? 0.0;
 
       // Calculate the discount amount (product price * discount percentage / 100)
-      double discountAmount = productPrice * (productDiscount / 100);
+      double discountAmount = productDiscount;
 
       // Calculate the product price after discount
-      double finalProductPrice = productPrice - discountAmount;
+      double finalProductPrice = discountAmount;
 
       // Calculate the total price for this product (after discount)
       double productTotal = finalProductPrice * quantity;
@@ -226,7 +210,7 @@ class _CartpageState extends State<Cartpage> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    '\₹${(double.parse(cartDetailsModel!.data![index].productPrice!) - (double.parse(cartDetailsModel!.data![index].productDiscount!) * double.parse(cartDetailsModel!.data![index].productPrice!) / 100)).toStringAsFixed(2)}',
+                                                    '\₹${(double.parse(cartDetailsModel!.data![index].productDiscount!)).toStringAsFixed(2)}',
                                                     style: GoogleFonts.exo(
                                                       color: Colors.red,
                                                       fontSize: 15,
@@ -359,13 +343,6 @@ class _CartpageState extends State<Cartpage> {
                                                 ),
                                                 TextButton(
                                                   onPressed: () async {
-                                                    // Navigator.push(
-                                                    //     context,
-                                                    //     MaterialPageRoute(
-                                                    //         builder: (context) =>
-                                                    //             Bottomnavbar()));
-                                                    // Close the dialog
-
                                                     final userService =
                                                         UserService(); // Use the singleton instance
 
@@ -577,7 +554,7 @@ class _CartpageState extends State<Cartpage> {
                   top: 1,
                   child: Container(
                     padding: EdgeInsets.all(10),
-                    height: screenHeight * 0.14,
+                    height: screenHeight * 0.13,
                     width: screenWidth,
                     color: AppColors.mainColor,
                     child: Column(
@@ -598,7 +575,7 @@ class _CartpageState extends State<Cartpage> {
                                         'My Cart',
                                         style:
                                             GoogleFonts.notoSerifOttomanSiyaq(
-                                          fontSize: 28,
+                                          fontSize: 25,
                                           fontWeight: FontWeight.w800,
                                         ),
                                       ),

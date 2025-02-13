@@ -1,47 +1,41 @@
-import 'package:flutter/material.dart';
-import 'package:e_commerce_grocery_application/Pages/models/place_order_request_model.dart';
+// import 'package:flutter/material.dart';
 
-class CartProvider extends ChangeNotifier {
-  List<Products> _cart = [];
-  List<Products> get cart => _cart;
+// class CartProvider with ChangeNotifier {
+//   Map<int, int> _cartItems = {}; // Stores product id and quantity
+//   // Getter for cart items
+//   Map<int, int> get cartItems => _cartItems;
 
-  // Getter for the total price
-  double get totalPrice {
-    return _cart.fold(
-      0,
-      (sum, product) =>
-          sum + (product.productPrice ?? 0) * (product.productQty ?? 0),
-    );
-  }
+//   // Method to update the quantity in the cart
+//   void updateCart(int productId, int quantity) {
+//     if (quantity > 0) {
+//       _cartItems[productId] = quantity; // Add/update item
+//     } else {
+//       _cartItems.remove(productId); // Remove item if quantity is 0
+//     }
+//     notifyListeners(); // Notify listeners to rebuild UI
+//     // Here you would also call an API to update the cart on the server.
+//     _updateCartOnServer(
+//         productId, quantity); // API call to update cart remotely
+//   }
 
-  // Add product to the cart
-  void addToCart(Products product) {
-    final index =
-        _cart.indexWhere((item) => item.productId == product.productId);
-    if (index != -1) {
-      _cart[index].productQty = (_cart[index].productQty ?? 0) + 1;
-    } else {
-      _cart.add(product..productQty = 1); // Add new product with quantity = 1
-    }
-    notifyListeners();
-  }
+//   // Simulate an API call to update the cart on the server or local storage
+//   Future<void> _updateCartOnServer(int productId, int quantity) async {
+//     // Example API call logic: Add or update the cart in the database
+//     // Replace with actual API service call if needed
 
-  // Remove product from the cart
-  void removeProduct(String productId) {
-    _cart.removeWhere((item) => item.productId == productId);
-    notifyListeners();
-  }
+//     print("Updating cart for product $productId with quantity $quantity...");
+//     // Example API call code
+//     // await CartService.updateCart(productId, quantity);
+//   }
 
-  // Change quantity of a specific product in the cart
-  void changeQuantity(String productId, int newQuantity) {
-    final index = _cart.indexWhere((item) => item.productId == productId);
-    if (index != -1) {
-      if (newQuantity > 0) {
-        _cart[index].productQty = newQuantity;
-      } else {
-        removeProduct(productId); // Remove product if quantity is 0
-      }
-      notifyListeners();
-    }
-  }
-}
+//   // Method to get the quantity of a specific product in the cart
+//   int getQuantity(int productId) {
+//     return _cartItems[productId] ?? 0;
+//   }
+
+//   // Method to clear the cart (for example, after checkout)
+//   void clearCart() {
+//     _cartItems.clear();
+//     notifyListeners(); // Notify listeners that the cart is now empty
+//   }
+// }

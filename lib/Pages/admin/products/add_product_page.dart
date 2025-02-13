@@ -138,9 +138,9 @@ class _AddProductPageState extends State<AddProductPage> {
                         textInputType: TextInputType.number),
                     _buildTextField(
                         controller: productDiscountController,
-                        label: "Product Discount in %",
+                        label: "Discounted Price",
                         inputRegex: r'^\d*\.?\d*$',
-                        hintText: "Enter Discount (if any %)",
+                        hintText: "Enter Discounted Price",
                         textInputType: TextInputType.number),
                     _buildTextField(
                       controller: stockController,
@@ -165,13 +165,12 @@ class _AddProductPageState extends State<AddProductPage> {
                     //   controller: quillController,
                     //   label: 'Product Description',
                     // ),
-                     _buildTextField(
-                      maxLine: 4,
-                      controller: productDescriptionController,
-                      label: "Product Description",
-                      hintText: "Enter Dcription",
-                      textInputType: TextInputType.multiline
-                     ),
+                    _buildTextField(
+                        maxLine: 4,
+                        controller: productDescriptionController,
+                        label: "Product Description",
+                        hintText: "Enter Dcription",
+                        textInputType: TextInputType.multiline),
                     const SizedBox(height: 20),
                     _buildImagePicker(
                       onRemoveImage: () => setState(() => selectedImage = null),
@@ -244,7 +243,7 @@ class _AddProductPageState extends State<AddProductPage> {
     required TextEditingController controller,
     required String label,
     required String hintText,
-    int maxLine=1,
+    int maxLine = 1,
     String inputRegex = r'.*',
     TextInputType textInputType = TextInputType.name,
   }) {
@@ -388,22 +387,22 @@ class _AddProductPageState extends State<AddProductPage> {
       final stock = int.tryParse(stockController.text) ?? 0;
 
       final response = await ProductService().addProduct(
-        productImage: selectedImage!,
-        additionalImage1: additionalImage1,
-        additionalImage2: additionalImage2,
-        categoryId: selectedValue!.id.toString(),
-        productName: productNameController.text,
-        Deliverycharge: Deliverycharge.text,
-        productPrice: productPrice.toString(), // Ensure it's a valid number
-        productDiscount:
-            productDiscount.toString(), // Ensure it's a valid number
-        stock: stock.toString(), // Ensure it's a valid integer
-        productShortDescription:
-            productshortDescriptionController.text.toString(),
-productDescription:productDescriptionController.text
-       // productDescription:
+          productImage: selectedImage!,
+          additionalImage1: additionalImage1,
+          additionalImage2: additionalImage2,
+          categoryId: selectedValue!.id.toString(),
+          productName: productNameController.text,
+          Deliverycharge: Deliverycharge.text,
+          productPrice: productPrice.toString(), // Ensure it's a valid number
+          productDiscount:
+              productDiscount.toString(), // Ensure it's a valid number
+          stock: stock.toString(), // Ensure it's a valid integer
+          productShortDescription:
+              productshortDescriptionController.text.toString(),
+          productDescription: productDescriptionController.text
+          // productDescription:
           //  jsonEncode(quillController.document.toDelta().toJson()),
-      );
+          );
 
       if (response != null) {
         print("Response Status Code: ${response.statusCode}");

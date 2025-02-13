@@ -153,7 +153,7 @@ class _MakeOrderPageState extends State<MakeOrderPage> {
           child: TextField(
             controller: searchController,
             decoration: InputDecoration(
-              labelText: "Search Orders by User ID",
+              labelText: "Search Orders by Order ID",
               prefixIcon: Icon(Icons.search),
               border: OutlineInputBorder(),
             ),
@@ -161,8 +161,7 @@ class _MakeOrderPageState extends State<MakeOrderPage> {
               if (query.isNotEmpty) {
                 setState(() {
                   orders = orders
-                      .where((order) =>
-                          order['user_id'].toString().contains(query))
+                      .where((order) => order['id'].toString().contains(query))
                       .toList();
                 });
               } else {

@@ -1,6 +1,7 @@
 import 'package:e_commerce_grocery_application/Pages/onboardingpage.dart';
 import 'package:e_commerce_grocery_application/provider/cart_provider.dart';
 import 'package:e_commerce_grocery_application/provider/product_provider.dart';
+import 'package:e_commerce_grocery_application/provider/quantity_provider.dart';
 import 'package:e_commerce_grocery_application/provider/userIdprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProvider(create: (_) => CartProvider())
+        ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -28,11 +29,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-//image_path: "assets/app_logo.jpeg"
-// dev_dependencies:
-//   flutter_test:
-//     sdk: flutter
-//   flutter_launcher_icons: ^0.14.1
-// flutter_icons:
-//   android: true
-//   ios: true

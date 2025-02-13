@@ -14,8 +14,6 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
-  bool _isLoading = false;
-
   TextEditingController phonenumcontroller = new TextEditingController();
   TextEditingController passwordcontroller = new TextEditingController();
   @override

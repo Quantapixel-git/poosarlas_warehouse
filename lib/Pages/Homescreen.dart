@@ -240,7 +240,7 @@ class _HomescreenState extends State<Homescreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => Productspageuser(
-                                      categoryid: category.id.toString(),
+                                      categoryId: category.id.toString(),
                                     ),
                                   ),
                                 );

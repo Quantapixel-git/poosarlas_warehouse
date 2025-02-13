@@ -36,6 +36,7 @@ class _OrdersPageState extends State<OrdersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.amber,
         title: Text("Order History"),
       ),
       body: FutureBuilder<JsonDartYOrders>(
@@ -44,7 +45,7 @@ class _OrdersPageState extends State<OrdersPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text("Error: ${snapshot.error}"));
+            return Center(child: Text("No Orders yet"));
           } else if (snapshot.hasData) {
             final orders = snapshot.data!.orders;
             return ListView.builder(
