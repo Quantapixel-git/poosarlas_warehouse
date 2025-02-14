@@ -10,14 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Detailviewpage extends StatefulWidget {
-  final String Name, description, Price, Image;
+  final String Name, Price, Image;
   String id, CategoryId, discount;
 
   Detailviewpage(
       {super.key,
       required this.Name,
       required this.Price,
-      required this.description,
+      // required this.description,
       required this.Image,
       required this.id,
       required this.CategoryId,
@@ -186,7 +186,7 @@ class _DetailviewpageState extends State<Detailviewpage> {
                                         // Create a TextPainter to calculate the truncated text
                                         final textPainter = TextPainter(
                                           text: TextSpan(
-                                              text: widget.description,
+                                              // text: widget.description,
                                               style: GoogleFonts.exo(
                                                 color: Colors.black,
                                                 wordSpacing: 6,
@@ -203,8 +203,8 @@ class _DetailviewpageState extends State<Detailviewpage> {
                                             textPainter.didExceedMaxLines;
 
                                         // Generate the truncated text with "Show More"
-                                        String truncatedText =
-                                            widget.description;
+                                        // String truncatedText =
+                                            // widget.description;
                                         if (isOverflowing && !_isExpanded) {
                                           // Determine visible text within 3 lines
                                           final endIndex = textPainter
@@ -214,10 +214,10 @@ class _DetailviewpageState extends State<Detailviewpage> {
                                               )
                                               .offset;
 
-                                          truncatedText = widget.description
-                                              .substring(0, endIndex)
-                                              .trim();
-                                          truncatedText += "… ";
+                                          // truncatedText = widget.description
+                                              // .substring(0, endIndex)
+                                              // .trim();
+                                          // truncatedText += "… ";
                                         }
 
                                         return GestureDetector(
@@ -230,18 +230,18 @@ class _DetailviewpageState extends State<Detailviewpage> {
                                           child: RichText(
                                             text: TextSpan(
                                               children: [
-                                                TextSpan(
-                                                  text: _isExpanded
-                                                      ? widget.description
-                                                      : truncatedText, // Full or truncated text
-                                                  style: GoogleFonts.exo(
-                                                    color: Colors.black,
-                                                    wordSpacing: 6,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize:
-                                                        screenWidth * 0.04,
-                                                  ),
-                                                ),
+                                                // TextSpan(
+                                                //   text: _isExpanded
+                                                //       // ? widget.description
+                                                //       // : truncatedText, // Full or truncated text
+                                                //   style: GoogleFonts.exo(
+                                                //     color: Colors.black,
+                                                //     wordSpacing: 6,
+                                                //     fontWeight: FontWeight.w500,
+                                                //     fontSize:
+                                                //         screenWidth * 0.04,
+                                                //   ),
+                                                // ),
                                                 if (!_isExpanded || _isExpanded)
                                                   TextSpan(
                                                     text: _isExpanded

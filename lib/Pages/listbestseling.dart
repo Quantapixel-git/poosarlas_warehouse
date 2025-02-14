@@ -53,8 +53,8 @@ class _GriditemsState extends State<Listbestseling> {
                               builder: (context) => Detailviewpage(
                                     Name: griddata['product_name'],
                                     Price: griddata['product_price'],
-                                    description:
-                                        griddata['product_description'],
+                                    // description:
+                                        // griddata['product_description'],
                                     Image: griddata['product_image_url'],
                                     id: griddata['id'].toString(),
                                     CategoryId:

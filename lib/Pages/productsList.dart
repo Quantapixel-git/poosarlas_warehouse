@@ -234,7 +234,7 @@ class _ProductslistState extends State<Productslist> {
                                   discount: category.productDiscount,
                                   Name: category.productName,
                                   Price: category.productPrice,
-                                  description: category.productDescription,
+                                  // description: category.productDescription,
                                   Image: category.productImageUrl,
                                   id: category.id.toString(),
                                   CategoryId: category.categoryId.toString(),

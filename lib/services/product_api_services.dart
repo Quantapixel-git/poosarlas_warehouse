@@ -4,15 +4,15 @@ import 'package:e_commerce_grocery_application/Pages/cartpage.dart';
 import 'package:e_commerce_grocery_application/Pages/model_category.dart/product_model.dart';
 import 'package:e_commerce_grocery_application/Pages/models/JsonDartYOrders.dart';
 import 'package:e_commerce_grocery_application/Pages/models/cart_details.dart';
-import 'package:e_commerce_grocery_application/Pages/models/getProductsByUserId.dart';
-import 'package:e_commerce_grocery_application/Pages/models/modelneeded.dart';
+// import 'package:e_commerce_grocery_application/Pages/models/getProductsByUserId.dart';
+// import 'package:e_commerce_grocery_application/Pages/models/modelneeded.dart';
 import 'package:e_commerce_grocery_application/Pages/models/user_details_model.dart';
 import 'package:e_commerce_grocery_application/Pages/models/user_model.dart';
 import 'package:e_commerce_grocery_application/global_variable.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import '../Pages/models/order_response_model.dart';
+// import '../Pages/models/order_response_model.dart';
 
 class ProductService {
   final String baseUrl =
@@ -216,26 +216,35 @@ class ProductService {
   }
 
   Future<List<Product>> getAllProducts() async {
+    const String apiUrl =
+        "https://quantapixel.in/ecommerce/grocery_app/public/api/getAllProducts";
+
     try {
-      final response = await http.get(Uri.parse('$baseUrl/getAllProducts'));
+      final response = await http.get(Uri.parse(apiUrl),
+          headers: {'Content-Type': 'application/json'});
+
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}"); // Log the response body
 
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
 
+        // Check if the response contains the expected structure
         if (jsonResponse['status'] == 1) {
-          List<Product> products = (jsonResponse['data'] as List)
-              .map((productJson) => Product.fromJson(productJson))
+          final List<dynamic> productsData = jsonResponse['data'];
+          return productsData
+              .map((product) => Product.fromJson(product))
               .toList();
-          return products;
         } else {
           throw Exception(
               'Failed to load products: ${jsonResponse['message']}');
         }
       } else {
-        throw Exception('Failed to load products: ${response.statusCode}');
+        print("Error: ${response.statusCode} - ${response.body}");
+        throw Exception('Failed to load products');
       }
     } catch (e) {
-      print("Error fetching products: $e");
+      print("Exception: $e");
       throw Exception('Failed to load products');
     }
   }
@@ -1258,3 +1267,4 @@ class ProductService {
     }
   }
 }
+

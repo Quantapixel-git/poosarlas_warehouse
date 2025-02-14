@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:e_commerce_grocery_application/Pages/cartpage.dart';
 import 'package:e_commerce_grocery_application/Pages/detailviewpage.dart';
-import 'package:e_commerce_grocery_application/Pages/models/cart_details.dart';
+// import 'package:e_commerce_grocery_application/Pages/models/cart_details.dart';
 import 'package:e_commerce_grocery_application/global_variable.dart';
 import 'package:e_commerce_grocery_application/services/product_api_services.dart';
 import 'package:e_commerce_grocery_application/utils/app_colors.dart';
@@ -12,12 +12,12 @@ import 'package:http/http.dart' as http;
 
 class ProductId {
   int? id;
-  String? categoryId;
+  int? categoryId; // Change to int?
   String? productName;
-  String? productPrice;
-  String? productDiscount;
-  String? stock;
-  String? deliveryCharge;
+  double? productPrice;
+  double? productDiscount;
+  int? stock;
+  int? deliveryCharge;
   String? productShortDescription;
   String? productDescription;
   int? cartQuantity;
@@ -42,20 +42,27 @@ class ProductId {
   });
 
   ProductId.fromJson(Map<String, dynamic> json) {
-    id = int.tryParse(json['id'].toString()) ??
-        0; // Parse as int, default to 0 if invalid
-    categoryId = json['category_id'];
+    id = json['id'] is int ? json['id'] : int.tryParse(json['id'].toString());
+    categoryId = json['category_id'] is int
+        ? json['category_id']
+        : int.tryParse(json['category_id'].toString());
     productName = json['product_name'];
-    productPrice = json['product_price'];
-    productDiscount = json['product_discount'];
-    stock = json['stock'];
-    deliveryCharge = json['delivery_charge'];
+    productPrice = double.tryParse(json['product_price'].toString()) ?? 0.0;
+    productDiscount =
+        double.tryParse(json['product_discount'].toString()) ?? 0.0;
+    stock = json['stock'] is int
+        ? json['stock']
+        : int.tryParse(json['stock'].toString());
+    deliveryCharge = json['delivery_charge'] is int
+        ? json['delivery_charge']
+        : int.tryParse(json['delivery_charge'].toString());
     productShortDescription = json['product_short_description'];
     productDescription = json['product_description'];
-    cartQuantity = int.tryParse(json['cart_quantity'].toString()) ??
-        0; // Default to 0 if invalid
-    productImageUrl = json['product_image_url'] ??
-        'https://via.placeholder.com/150'; // Default if null
+    cartQuantity = json['cart_quantity'] is int
+        ? json['cart_quantity']
+        : int.tryParse(json['cart_quantity'].toString());
+    productImageUrl =
+        json['product_image_url'] ?? 'https://via.placeholder.com/150';
     additionalImage1Url = json['additional_image_1_url'];
     additionalImage2Url = json['additional_image_2_url'];
   }
@@ -132,9 +139,13 @@ class _ProductspageuserState extends State<Productspageuser> {
   }
 
   Future<List<ProductId>> fetchProducts() async {
-    final userService = UserService(); // Use the singleton instance
+    final userService = UserService();
     String? userpassword = await userService.getUserId();
-    print('$userpassword');
+    print('User  ID: $userpassword'); // Log the user ID
+
+    if (userpassword == null) {
+      throw Exception('User  ID is null');
+    }
 
     final response = await http.post(
       Uri.parse(
@@ -145,18 +156,21 @@ class _ProductspageuserState extends State<Productspageuser> {
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body) as Map<String, dynamic>;
+      print('Response: $jsonResponse'); // Log the response
+
       if (jsonResponse['status'] == 1) {
         final List<dynamic> data = jsonResponse['data'];
         final products = data.map((e) => ProductId.fromJson(e)).toList();
 
         // Fetch filter and apply sorting
+        // Fetch filter and apply sorting
         final filter = await fetchFilter();
         if (filter == 1) {
-          products.sort((a, b) => double.parse(a.productPrice ?? '0')
-              .compareTo(double.parse(b.productPrice ?? '0')));
+          products.sort(
+              (a, b) => (a.productPrice ?? 0).compareTo(b.productPrice ?? 0));
         } else if (filter == 2) {
-          products.sort((a, b) => double.parse(b.productPrice ?? '0')
-              .compareTo(double.parse(a.productPrice ?? '0')));
+          products.sort(
+              (a, b) => (b.productPrice ?? 0).compareTo(a.productPrice ?? 0));
         }
 
         return products;
@@ -164,7 +178,9 @@ class _ProductspageuserState extends State<Productspageuser> {
         throw Exception(jsonResponse['message'] ?? 'Failed to fetch products');
       }
     } else {
-      throw Exception('Failed to connect to the server');
+      print('Error: ${response.statusCode} - ${response.body}'); // Log error
+      throw Exception(
+          'Failed to connect to the server: ${response.statusCode}');
     }
   }
 
@@ -243,6 +259,7 @@ class _ProductspageuserState extends State<Productspageuser> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
+          print('Error: ${snapshot.error}');
           return const Center(
             child: Text(
               'Failed to load products. Please try again.',
@@ -252,7 +269,8 @@ class _ProductspageuserState extends State<Productspageuser> {
         } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           final categories = snapshot.data!;
           final filteredCategories = categories
-              .where((product) => widget.categoryId == product.categoryId)
+              .where((product) =>
+                  product.categoryId == int.tryParse(widget.categoryId))
               .toList();
 
           if (filteredCategories.isEmpty) {
@@ -299,11 +317,11 @@ class _ProductspageuserState extends State<Productspageuser> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Detailviewpage(
-                                  discount: product.productDiscount ?? '0',
+                                  discount: (product.productDiscount ?? 0)
+                                      .toString(), // Convert to String
                                   Name: product.productName ?? 'Unknown',
-                                  Price: product.productPrice ?? '0',
-                                  description: product.productDescription ??
-                                      'No description',
+                                  Price: (product.productPrice ?? 0)
+                                      .toString(), // Convert to String
                                   Image: product.productImageUrl ?? '',
                                   id: product.id.toString(),
                                   CategoryId: widget.categoryId,

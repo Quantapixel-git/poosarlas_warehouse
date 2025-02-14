@@ -87,7 +87,7 @@ class _SimilarproductsState extends State<Similarproducts> {
                                   discount: category.productDiscount,
                                   Name: category.productName,
                                   Price: category.productPrice,
-                                  description: category.productDescription,
+                                  // description: category.productDescription,
                                   Image: category.productImageUrl,
                                   id: category.id.toString(),
                                   CategoryId: widget.CategoryId),

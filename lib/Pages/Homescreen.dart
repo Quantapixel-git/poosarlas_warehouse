@@ -1,11 +1,11 @@
 import 'package:e_commerce_grocery_application/Pages/CategoryNav.dart';
 import 'package:e_commerce_grocery_application/Pages/listbestseling.dart';
 import 'package:e_commerce_grocery_application/Pages/model_category.dart/model_category.dart';
-import 'package:e_commerce_grocery_application/Pages/model_category.dart/product_model.dart';
+// import 'package:e_commerce_grocery_application/Pages/model_category.dart/product_model.dart';
 import 'package:e_commerce_grocery_application/Pages/productsList.dart';
 import 'package:e_commerce_grocery_application/Pages/productspage.dart';
 import 'package:e_commerce_grocery_application/Pages/users/CarouselSlider.dart';
-import 'package:e_commerce_grocery_application/Widgets/Categorieswidget.dart';
+// import 'package:e_commerce_grocery_application/Widgets/Categorieswidget.dart';
 import 'package:e_commerce_grocery_application/global_variable.dart';
 import 'package:e_commerce_grocery_application/services/category_api_services.dart';
 import 'package:e_commerce_grocery_application/utils/app_colors.dart';

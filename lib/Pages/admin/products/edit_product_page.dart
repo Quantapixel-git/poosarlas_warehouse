@@ -57,7 +57,8 @@ class _EditProductPageState extends State<EditProductPage> {
       print(productData);
 
       if (productData != null) {
-        categoryIdController.text = productData['category_id'] ?? '';
+        categoryIdController.text =
+            productData['category_id']?.toString() ?? ''; // Convert to String
         productNameController.text = productData['product_name'] ?? '';
         productPriceController.text =
             productData['product_price']?.toString() ?? '';
@@ -131,11 +132,17 @@ class _EditProductPageState extends State<EditProductPage> {
     });
 
     try {
-      // Parse numeric values
-      final productPrice = double.tryParse(productPriceController.text) ?? 0.0;
-      final productDiscount =
-          double.tryParse(productDiscountController.text) ?? 0.0;
-      final stock = int.tryParse(stockController.text) ?? 0;
+      // Parse numeric values with validation
+      final productPrice = double.tryParse(productPriceController.text);
+      final productDiscount = double.tryParse(productDiscountController.text);
+      final stock = int.tryParse(stockController.text);
+
+      if (productPrice == null || productDiscount == null || stock == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please enter valid numeric values')),
+        );
+        return;
+      }
 
       final response = await ProductService().editProduct(
         productId: widget.id,

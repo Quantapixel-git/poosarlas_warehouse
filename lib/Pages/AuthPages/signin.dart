@@ -14,8 +14,10 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
-  TextEditingController phonenumcontroller = new TextEditingController();
-  TextEditingController passwordcontroller = new TextEditingController();
+  TextEditingController phonenumcontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
+  bool _isLoading = false; // Add this line to prevent the error
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
