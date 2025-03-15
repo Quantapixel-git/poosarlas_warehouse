@@ -7,11 +7,9 @@ class JsonDartYOrders {
 
   factory JsonDartYOrders.fromJson(Map<String, dynamic> json) {
     return JsonDartYOrders(
-      status: json['status'],
-      message: json['message'],
-      orders: json['orders'] != null
-          ? (json['orders'] as List).map((i) => Orderxy.fromJson(i)).toList()
-          : null,
+      status: json['status'] is int ? json['status'] : int.tryParse(json['status'].toString()),
+      message: json['message']?.toString(),
+      orders: (json['orders'] as List?)?.map((i) => Orderxy.fromJson(i)).toList() ?? [],
     );
   }
 
@@ -26,7 +24,7 @@ class JsonDartYOrders {
 
 class Orderxy {
   int? id;
-  String? userId;
+  int? userId;
   String? addressId;
   String? note;
   String? orderStatus;
@@ -35,7 +33,7 @@ class Orderxy {
   String? savings;
   String? gst;
   String? grandTotal;
-  String? isPushed;
+  int? isPushed;
   String? createdAt;
   String? updatedAt;
   List<Productxy>? products;
@@ -59,24 +57,20 @@ class Orderxy {
 
   factory Orderxy.fromJson(Map<String, dynamic> json) {
     return Orderxy(
-      id: json['id'],
-      userId: json['user_id'],
-      addressId: json['address_id'],
-      note: json['note'],
-      orderStatus: json['order_status'],
-      paymentStatus: json['payment_status'],
-      subtotal: json['subtotal'],
-      savings: json['savings'],
-      gst: json['gst'],
-      grandTotal: json['grand_total'],
-      isPushed: json['is_pushed'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      products: json['products'] != null
-          ? (json['products'] as List)
-              .map((i) => Productxy.fromJson(i))
-              .toList()
-          : null,
+      id: json['id'] is int ? json['id'] : int.tryParse(json['id'].toString()),
+      userId: json['user_id'] is int ? json['user_id'] : int.tryParse(json['user_id'].toString()),
+      addressId: json['address_id']?.toString(),
+      note: json['note']?.toString(),
+      orderStatus: json['order_status']?.toString(),
+      paymentStatus: json['payment_status']?.toString(),
+      subtotal: json['subtotal']?.toString(),
+      savings: json['savings']?.toString(),
+      gst: json['gst']?.toString(),
+      grandTotal: json['grand_total']?.toString(),
+      isPushed: json['is_pushed'] is int ? json['is_pushed'] : int.tryParse(json['is_pushed'].toString()),
+      createdAt: json['created_at']?.toString(),
+      updatedAt: json['updated_at']?.toString(),
+      products: (json['products'] as List?)?.map((i) => Productxy.fromJson(i)).toList() ?? [],
     );
   }
 
@@ -102,9 +96,9 @@ class Orderxy {
 
 class Productxy {
   int? id;
-  String? orderId;
-  String? userId;
-  String? productId;
+  int? orderId;
+  int? userId;
+  int? productId;
   String? productName;
   String? productPrice;
   String? gst;
@@ -115,7 +109,6 @@ class Productxy {
   String? productImageUrl;
   String? additionalImage1Url;
   String? additionalImage2Url;
-  ProductDetails? product;
 
   Productxy({
     this.id,
@@ -132,28 +125,24 @@ class Productxy {
     this.productImageUrl,
     this.additionalImage1Url,
     this.additionalImage2Url,
-    this.product,
   });
 
   factory Productxy.fromJson(Map<String, dynamic> json) {
     return Productxy(
-      id: json['id'],
-      orderId: json['order_id'],
-      userId: json['user_id'],
-      productId: json['product_id'],
-      productName: json['product_name'],
-      productPrice: json['product_price'],
-      gst: json['gst'],
-      grandTotal: json['grand_total'],
-      productQty: json['product_qty'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      productImageUrl: json['product_image_url'],
-      additionalImage1Url: json['additional_image_1_url'],
-      additionalImage2Url: json['additional_image_2_url'],
-      product: json['product'] != null
-          ? ProductDetails.fromJson(json['product'])
-          : null,
+      id: json['id'] is int ? json['id'] : int.tryParse(json['id'].toString()),
+      orderId: json['order_id'] is int ? json['order_id'] : int.tryParse(json['order_id'].toString()),
+      userId: json['user_id'] is int ? json['user_id'] : int.tryParse(json['user_id'].toString()),
+      productId: json['product_id'] is int ? json['product_id'] : int.tryParse(json['product_id'].toString()),
+      productName: json['product_name']?.toString(),
+      productPrice: json['product_price']?.toString(),
+      gst: json['gst']?.toString(),
+      grandTotal: json['grand_total']?.toString(),
+      productQty: json['product_qty']?.toString(),
+      createdAt: json['created_at']?.toString(),
+      updatedAt: json['updated_at']?.toString(),
+      productImageUrl: json['product_image_url']?.toString(),
+      additionalImage1Url: json['additional_image_1_url']?.toString(),
+      additionalImage2Url: json['additional_image_2_url']?.toString(),
     );
   }
 
@@ -173,83 +162,6 @@ class Productxy {
       'product_image_url': productImageUrl,
       'additional_image_1_url': additionalImage1Url,
       'additional_image_2_url': additionalImage2Url,
-      'product': product?.toJson(),
-    };
-  }
-}
-
-class ProductDetails {
-  int? id;
-  String? categoryId;
-  String? productName;
-  String? productPrice;
-  String? productDiscount;
-  String? stock;
-  String? productImage;
-  String? additionalImage1;
-  String? additionalImage2;
-  String? productShortDescription;
-  String? productDescription;
-  String? deliveryCharge;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
-
-  ProductDetails({
-    this.id,
-    this.categoryId,
-    this.productName,
-    this.productPrice,
-    this.productDiscount,
-    this.stock,
-    this.productImage,
-    this.additionalImage1,
-    this.additionalImage2,
-    this.productShortDescription,
-    this.productDescription,
-    this.deliveryCharge,
-    this.status,
-    this.createdAt,
-    this.updatedAt,
-  });
-
-  factory ProductDetails.fromJson(Map<String, dynamic> json) {
-    return ProductDetails(
-      id: json['id'],
-      categoryId: json['category_id'],
-      productName: json['product_name'],
-      productPrice: json['product_price'],
-      productDiscount: json['product_discount'],
-      stock: json['stock'],
-      productImage: json['product_image'],
-      additionalImage1: json['additional_image_1'],
-      additionalImage2: json['additional_image_2'],
-      productShortDescription: json['product_short_description'],
-      productDescription: json['product_description'],
-      deliveryCharge: json['delivery_charge'],
-      status: json['status'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'category_id': categoryId,
-      'product_name': productName,
-      'product_price': productPrice,
-      'product_discount': productDiscount,
-      'stock': stock,
-      'product_image': productImage,
-      'additional_image_1': additionalImage1,
-      'additional_image_2': additionalImage2,
-      'product_short_description': productShortDescription,
-      'product_description': productDescription,
-      'delivery_charge': deliveryCharge,
-      'status': status,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
     };
   }
 }

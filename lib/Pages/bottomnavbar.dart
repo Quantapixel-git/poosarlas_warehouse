@@ -16,32 +16,52 @@ class Bottomnavbar extends StatefulWidget {
 
 class _BottomnavbarState extends State<Bottomnavbar> {
   int _currentIndex = 0;
+  DateTime? lastPressed;
+
   final List<Widget> _pages = [
     Homescreen(),
     CategoryNav(),
     Cartpage(),
     AccountPage(),
   ];
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_currentIndex],
-      bottomNavigationBar: CurvedNavigationBar(
-        height: MediaQuery.of(context).size.height * 0.075,
-        onTap: (int index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        backgroundColor: AppColors.mainColor,
-        color: const Color.fromARGB(255, 255, 255, 255),
-        animationDuration: Duration(milliseconds: 300),
-        items: [
-          Icon(Icons.home),
-          Icon(CupertinoIcons.cube_box),
-          Icon(Icons.shopping_cart_checkout_outlined),
-          Icon(CupertinoIcons.profile_circled),
-        ],
+    return WillPopScope(
+      onWillPop: () async {
+        final now = DateTime.now();
+        if (lastPressed == null ||
+            now.difference(lastPressed!) > Duration(seconds: 2)) {
+          lastPressed = now;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Press back again to exit"),
+              duration: Duration(seconds: 2),
+            ),
+          );
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        body: _pages[_currentIndex],
+        bottomNavigationBar: CurvedNavigationBar(
+          height: MediaQuery.of(context).size.height * 0.075,
+          onTap: (int index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          backgroundColor: AppColors.mainColor,
+          color: Colors.white,
+          animationDuration: Duration(milliseconds: 300),
+          items: [
+            Icon(Icons.home),
+            Icon(CupertinoIcons.cube_box),
+            Icon(Icons.shopping_cart_checkout_outlined),
+            Icon(CupertinoIcons.profile_circled),
+          ],
+        ),
       ),
     );
   }

@@ -180,7 +180,9 @@ class _FinalOrderDeliveryPageState extends State<FinalOrderDeliveryPage> {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('An unknown error occurred.')),
+          SnackBar(
+              content: Text(
+                  'Please clear pending payments to proceed with your order.')),
         );
       }
     } catch (e) {

@@ -13,27 +13,38 @@ class OrdersPage extends StatefulWidget {
 
 class _OrdersPageState extends State<OrdersPage> {
   late Future<JsonDartYOrders> _futureOrders;
-  // int userId = 4;
-  Future<void> fetchUserDetail(BuildContext context) async {
-    final userService = UserService(); // Use the singleton instance
 
-    String? userpassword = await userService.getUserId();
-    print('hiii$userpassword'); // Correctly access the instance method
+ Future<void> fetchUserDetail(BuildContext context) async {
+  final userService = UserService(); // Use the singleton instance
 
-    _futureOrders = ProductService().fetchOrders(userpassword.toString());
-    // print('123 $userDetailsModel');
-    //setData();
-    setState(() {});
+  var userId = await userService.getUserId();
+  print('Fetched user ID: $userId');
+
+  // Ensure userId is a string
+  if (userId is int) {
+    userId = userId.toString(); // Convert to string if it's an integer
+  } else if (userId is String) {
+    // It's already a string, do nothing
+  } else {
+    print('User  ID is neither int nor String, cannot fetch orders.');
+    return; // Exit if userId is not valid
   }
+
+  print('Fetching orders for user ID: $userId');
+  _futureOrders = ProductService().fetchOrders(userId);
+  setState(() {});
+}
 
   @override
   void initState() {
     super.initState();
+    print('Initializing OrdersPage...');
     fetchUserDetail(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    print('Building OrdersPage...');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amber,
@@ -43,15 +54,20 @@ class _OrdersPageState extends State<OrdersPage> {
         future: _futureOrders,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
+            print('Waiting for orders to load...');
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
+            print('Error fetching orders: ${snapshot.error}');
             return Center(child: Text("No Orders yet"));
           } else if (snapshot.hasData) {
             final orders = snapshot.data!.orders;
+            print(
+                'Orders fetched successfully. Number of orders: ${orders!.length}');
             return ListView.builder(
-              itemCount: orders!.length,
+              itemCount: orders.length,
               itemBuilder: (context, index) {
                 final order = orders[index];
+                print('Building order card for Order ID: ${order.id}');
                 return Card(
                   margin: EdgeInsets.all(10),
                   child: Padding(
@@ -68,19 +84,21 @@ class _OrdersPageState extends State<OrdersPage> {
                         Text("Products:", style: TextStyle(fontSize: 14)),
                         ElevatedButton(
                           onPressed: () {
+                            print(
+                                'Navigating to details for Order ID: ${order.id}');
                             // Navigate to the details page
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => UserView(
-                                    order:
-                                        order), // Replace with your details page widget
+                                builder: (context) => UserView(order: order),
                               ),
                             );
                           },
                           child: Text('View Details'),
                         ),
                         ...order.products!.map((product) {
+                          print(
+                              'Building product tile for: ${product.productName}');
                           return ListTile(
                             leading: Image.network(
                               product.productImageUrl ?? '',
@@ -102,6 +120,7 @@ class _OrdersPageState extends State<OrdersPage> {
               },
             );
           } else {
+            print('No orders available.');
             return Center(child: Text("No orders available"));
           }
         },

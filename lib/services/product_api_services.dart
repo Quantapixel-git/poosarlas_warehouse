@@ -4,15 +4,12 @@ import 'package:e_commerce_grocery_application/Pages/cartpage.dart';
 import 'package:e_commerce_grocery_application/Pages/model_category.dart/product_model.dart';
 import 'package:e_commerce_grocery_application/Pages/models/JsonDartYOrders.dart';
 import 'package:e_commerce_grocery_application/Pages/models/cart_details.dart';
-// import 'package:e_commerce_grocery_application/Pages/models/getProductsByUserId.dart';
-// import 'package:e_commerce_grocery_application/Pages/models/modelneeded.dart';
 import 'package:e_commerce_grocery_application/Pages/models/user_details_model.dart';
 import 'package:e_commerce_grocery_application/Pages/models/user_model.dart';
 import 'package:e_commerce_grocery_application/global_variable.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-// import '../Pages/models/order_response_model.dart';
 
 class ProductService {
   final String baseUrl =
@@ -714,23 +711,35 @@ class ProductService {
 
   Future<Map<String, dynamic>?> fetchOrderList() async {
     try {
+      print("Starting to fetch order list...");
+
       final response = await http.get(
         Uri.parse('$baseUrl/all-orders'),
         headers: {'Content-Type': 'application/json'},
       );
+
+      print("Response received. Status code: ${response.statusCode}");
+
       if (response.statusCode == 200) {
+        print("Response body: ${response.body}");
+
         final data = json.decode(response.body);
+        print("Decoded JSON data: $data");
+
         if (data['status'] == 1) {
+          print("Order list fetched successfully.");
           return data;
         } else {
+          print("Error in response: ${data['message']}");
           throw Exception(data['message']);
         }
       } else {
+        print("Failed to fetch product. Status: ${response.statusCode}");
         throw Exception(
             'Failed to fetch product. Status: ${response.statusCode}');
       }
     } catch (error) {
-      print("Error fetching product by ID: $error");
+      print("Error fetching order list: $error");
       return null;
     }
   }
@@ -882,9 +891,12 @@ class ProductService {
         "Accept": "application/json",
       },
       body: jsonEncode({
-        "user_id": userId,
+        "user_id": userId, // Ensure this is a string
       }),
     );
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}'); // Log the response body
 
     if (response.statusCode == 200) {
       return JsonDartYOrders.fromJson(json.decode(response.body));
@@ -1267,4 +1279,3 @@ class ProductService {
     }
   }
 }
-
