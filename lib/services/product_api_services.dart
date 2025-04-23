@@ -393,7 +393,7 @@ class ProductService {
   }
 
   Future<Map<String, dynamic>?> addToCart(
-      String userIdCart, String productIdd, context, int quantitty) async {
+      String userIdCart, String productIdd, context, int quantitty,{ bool openCartPage = true}) async {
     Map<String, dynamic> data = {"user_id": userIdCart};
     try {
       final response = await http.post(
@@ -419,10 +419,12 @@ class ProductService {
               content: Text(data['message']),
             ),
           );
+        if(openCartPage){
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Cartpage()),
           );
+          }
           return data['data'];
         } else {
           ScaffoldMessenger.of(context).showSnackBar(

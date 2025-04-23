@@ -188,7 +188,7 @@ class _ProductspageuserState extends State<Productspageuser> {
 
   void updateQuantity(
       int productId, bool increment, BuildContext context) async {
-    setState(() {
+    // setState(() {
       // Update cartQuantity for the specific product
       final product = _productFuture.then((products) => products.firstWhere(
           (prod) => prod.id == productId)); // Get the product object
@@ -229,19 +229,20 @@ class _ProductspageuserState extends State<Productspageuser> {
               productId.toString(),
               context,
               prod.cartQuantity ?? 0, // Use the updated quantity
+              openCartPage: false,
             );
-            Navigator.pop(context);
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    Productspageuser(categoryId: widget.categoryId),
-              ),
-            );
+            // Navigator.pop(context);
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) =>
+            //         Productspageuser(categoryId: widget.categoryId),
+            //   ),
+            // );
           }
         });
       });
-    });
+    // });
   }
 
   Future<void> _quantityUpdateApi(
